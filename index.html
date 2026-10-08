@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FITMATE</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff;--bg2:#f4f4f2;--tx:#111;--tx2:#6b6b6b;--ln:#e4e4e1;--ac:#1b2a4a;--nv:#1b2a4a;--card:#f4f4f2}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--bg2:#1b1b1a;--tx:#f2f2f0;--tx2:#9a9a96;--ln:#2c2c2a;--ac:#8fa8d6;--nv:#2d4a82;--card:#1b1b1a}}
+:root[data-theme=dark]{--bg:#111;--bg2:#1b1b1a;--tx:#f2f2f0;--tx2:#9a9a96;--ln:#2c2c2a;--ac:#8fa8d6;--nv:#2d4a82;--card:#1b1b1a}
+*{box-sizing:border-box;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font:14px/1.6 "Pretendard","Helvetica Neue","Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--ln);z-index:5;display:flex;align-items:center;gap:28px;padding:12px 28px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:10px;cursor:pointer}
+.lg i{width:34px;height:34px;border-radius:9px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font:italic 800 15px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em;box-shadow:0 0 0 1px var(--ln)}
+.lg b{font-weight:800;letter-spacing:.22em;font-size:14px}
+nav{display:flex;gap:22px;flex:1;flex-wrap:wrap}
+.m{position:relative}.m>span{font-size:12px;letter-spacing:.14em;font-weight:600;cursor:pointer;padding:6px 0;display:block}
+.dd{display:none;position:absolute;top:100%;left:-12px;background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:8px;min-width:150px}
+.m:hover .dd,.m:focus-within .dd{display:block}
+.dd a{display:block;padding:7px 12px;border-radius:8px;cursor:pointer;color:var(--tx2)}.dd a:hover{background:var(--bg2);color:var(--tx)}
+.r{display:flex;gap:18px;font-size:12px;letter-spacing:.1em;font-weight:600}.r span{cursor:pointer;position:relative}
+.dot{position:absolute;top:-2px;right:-8px;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+main{max-width:1120px;margin:0 auto;padding:36px 28px 60px;min-height:70vh}
+footer{text-align:center;color:var(--tx2);font-size:11px;letter-spacing:.14em;padding:26px 0 34px;border-top:1px solid var(--ln)}
+h1{font-size:34px;font-weight:300;line-height:1.25}h1 b{font-weight:800}
+h2{font-size:12px;letter-spacing:.2em;font-weight:700;margin:44px 0 16px;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font-weight:400;letter-spacing:0;color:var(--tx2);font-size:12px}
+.sub{color:var(--tx2);margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.grid.l{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border-radius:18px;overflow:hidden}
+.ph{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;background:var(--bg2);position:relative}
+.ph svg{width:70%;height:70%}.ph img{width:100%;height:100%;object-fit:cover}
+.cb{padding:12px 14px 14px}.cb .n{font-weight:600;font-size:13px}.cb .s{color:var(--tx2);font-size:12px;margin-top:2px}
+.btn{border:1px solid var(--tx);background:none;color:var(--tx);border-radius:999px;padding:9px 20px;font:inherit;font-size:12px;letter-spacing:.08em;cursor:pointer}
+.btn:hover{background:var(--tx);color:var(--bg)}.btn.p{background:var(--nv);border-color:var(--nv);color:#fff}.btn.p:hover{opacity:.88}
+.lk{background:none;border:0;color:var(--tx2);font:inherit;font-size:12px;cursor:pointer;padding:4px 0}.lk:hover,.lk.on{color:var(--ac);font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--ln);border-radius:999px;padding:6px 15px;cursor:pointer;font-size:13px;background:none;color:var(--tx);font-family:inherit}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.stat{display:flex;gap:26px;flex-wrap:wrap;margin:18px 0 0}.stat div{font-size:12px;color:var(--tx2)}.stat b{display:block;font-size:22px;font-weight:300;color:var(--tx)}
+input,select,textarea{font:inherit;border:1px solid var(--ln);border-radius:12px;padding:10px 14px;background:var(--bg);color:var(--tx);width:100%}
+label{display:block;font-size:11px;letter-spacing:.12em;color:var(--tx2);margin:14px 0 6px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+@media(max-width:760px){.split,.two{grid-template-columns:1fr}header{padding:10px 16px;gap:12px}main{padding:24px 16px 40px}h1{font-size:26px}nav{gap:14px}}
+.wx{display:flex;gap:28px;align-items:center;border:1px solid var(--ln);border-radius:18px;padding:18px 22px;flex-wrap:wrap}
+.wx .t{font-size:40px;font-weight:200;line-height:1}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:20px}
+.why{margin-top:18px;border-left:2px solid var(--ac);padding-left:16px;color:var(--tx2)}
+.cm{border-top:1px solid var(--ln);margin-top:10px;padding-top:10px;font-size:13px}.cm p{margin:4px 0}.cm b{font-weight:600;margin-right:6px}
+.cmi{display:flex;gap:8px;margin-top:8px}.cmi input{padding:7px 12px}.cmi button{white-space:nowrap}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:20;padding:20px}
+.md{background:var(--bg);border-radius:20px;padding:26px;max-width:460px;width:100%;max-height:85vh;overflow:auto}
+.md h3{font-weight:700;font-size:16px;margin-bottom:6px}
+.tg{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 22px;border-radius:999px;font-size:13px;z-index:30}
+.u{display:flex;align-items:center;gap:10px}.av{width:36px;height:36px;border-radius:50%;background:var(--tx);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none}
+.tag{display:inline-block;font-size:11px;letter-spacing:.06em;border:1px solid var(--ln);border-radius:999px;padding:2px 10px;color:var(--tx2);margin-right:4px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid var(--ln);vertical-align:-1px;margin-right:6px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;background:var(--bg2);border-radius:18px;padding:10px}
+.pair .ph{aspect-ratio:3/4;background:transparent}
+</style></head><body>
+<header>
+<div class="lg" onclick="go('home')"><i>FM</i><b>FITMATE</b></div>
+<nav>
+<div class="m" tabindex="0"><span>HOME</span><div class="dd"><a onclick="go('home')">오늘의 추천</a><a onclick="go('popular')">인기 코디</a><a onclick="go('users')">추천 사용자</a></div></div>
+<div class="m" tabindex="0"><span>MY CLOSET</span><div class="dd"><a onclick="go('closet')">내 옷장</a><a onclick="go('add')">옷 추가</a><a onclick="go('outfit')">코디</a></div></div>
+<div class="m" tabindex="0"><span>AI STYLING</span><div class="dd"><a onclick="go('ai')">AI 코디 추천</a></div></div>
+<div class="m" tabindex="0"><span>COMMUNITY</span><div class="dd"><a onclick="go('feed')">코디 피드</a><a onclick="go('wardrobes')">옷장</a><a onclick="go('following')">팔로잉</a></div></div>
+</nav>
+<div class="r"><span onclick="notif()">알림<i class="dot"></i></span><span onclick="go('profile')">프로필</span></div>
+</header>
+<main id="v"></main>
+<footer>made by hyunwoo</footer>
+<script>
+const $=s=>document.querySelector(s),K='fitmate1';
+const hsl=h=>{const r=parseInt(h.slice(1,3),16)/255,g=parseInt(h.slice(3,5),16)/255,b=parseInt(h.slice(5,7),16)/255,M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2;return[M==m?0:(M-m)/(1-Math.abs(2*l-1)),l]};
+const STY=['캐쥬얼','스트릿','댄디','미니멀','아메카지','빈티지'],SL={c:'캐쥬얼',s:'스트릿',d:'댄디',m:'미니멀',a:'아메카지',v:'빈티지'},SN={1:'봄/가을',2:'여름',3:'겨울',4:'사계절'};
+const CATS={top:['반팔티','롱슬리브','맨투맨','후드티','아우터','셔츠','니트'],bottom:['청바지','데님팬츠','슬랙스','코튼팬츠','트레이닝팬츠','나일론팬츠','반바지'],shoes:['런닝화','스니커즈','부츠','샌들','로퍼']};
+const TN={top:'상의',bottom:'하의',shoes:'신발'},W={반팔티:1,롱슬리브:1,셔츠:1,니트:2,맨투맨:2,후드티:2,아우터:2};
+let nid=1;const items=[];
+const mk=(n,c,t,col,st,se,br)=>({id:nid++,name:n,cat:c,type:t,color:col,fit:/오버|와이드/.test(n)?'오버핏':/슬림|테이퍼드/.test(n)?'슬림':'레귤러',season:SN[se],sn:+se,brand:br||'미입력',date:'',st:[...st].map(x=>SL[x]),w:(W[c]||0)+(/패딩|코트/.test(n)?1:0)});
+const RAW=`#top
+@반팔티
+화이트 이너 반팔티|#f7f7f5|cmsd|2
+블랙 오버핏 반팔티|#1a1a1c|s|2
+그레이 멜란지 반팔티|#a8a8a8|cm|2
+네이비 슬림 반팔티|#1f2a44|cdm|2
+베이지 소프트 반팔티|#d9cdb8|mv|2
+오트밀 빈티지 반팔티|#cbbf9f|va|2
+올리브 아메카지 반팔티|#6b7050|ac|2
+버건디 그래픽 반팔티|#6e2a35|sv|2
+스카이 블루 반팔티|#9bb6d3|cd|2
+오프화이트 헤비 반팔티|#ece8dc|mac|2
+@롱슬리브
+블랙 슬림 롱슬리브|#1b1b1d|sm|1
+화이트 롱슬리브|#f2f2ef|cdm|1
+차콜 오버핏 롱슬리브|#3c3d41|sc|1
+브라운 빈티지 롱슬리브|#7b5a44|va|1
+네이비 보더 롱슬리브|#243a5e|cdv|1
+그레이 슬림 롱슬리브|#9a9a9a|dm|1
+카키 워크 롱슬리브|#646b4c|ac|1
+@맨투맨
+그레이 베이직 맨투맨|#b3b3b3|cm|1
+블랙 오버핏 맨투맨|#1c1c1e|s|1
+네이비 로고 맨투맨|#223357|cv|1
+크림 브러시드 맨투맨|#e5dcc8|mc|3
+버건디 빈티지 맨투맨|#6b2c3a|vs|1
+멜란지 워싱 맨투맨|#8d8f93|cva|1
+화이트 슬림 맨투맨|#f1f1ee|dm|1
+@후드티
+블랙 오버핏 후드티|#19191a|s|1
+그레이 기모 후드티|#8e8f93|cs|3
+네이비 집업 후드|#1f2d4c|cs|1
+오트밀 후드티|#d6c9ae|mc|1
+워싱 차콜 후드티|#4a4b4f|sv|1
+@아우터
+블랙 레더 라이더 자켓|#151515|sv|1
+베이지 트렌치 코트|#c8b48f|dm|1
+네이비 블레이저|#1d2a47|d|1
+카키 M65 필드 자켓|#5c6240|ac|1
+브라운 코듀로이 자켓|#6f4d37|av|1
+블랙 코치 자켓|#202022|sm|1
+차콜 울 싱글 코트|#3b3c40|dm|3
+그레이 롱 패딩|#7c7e83|sc|3
+블랙 숏 패딩|#121213|sm|3
+데님 트러커 자켓|#5f7ea3|cav|1
+@셔츠
+화이트 옥스포드 셔츠|#f5f5f2|dm|1
+스카이 블루 셔츠|#a9c2dd|dm|1
+블랙 오버핏 셔츠|#1a1a1c|sm|1
+체크 플란넬 셔츠|#7a3d33|av|1
+블루 스트라이프 셔츠|#cfd8e3|cd|1
+베이지 리넨 셔츠|#d8ccb2|mc|2
+@니트
+네이비 니트|#1f2a44|mdc|3
+그레이 라운드 니트|#9a9ca0|dm|3
+크림 케이블 니트|#e3d8c3|cv|3
+블랙 터틀넥 니트|#1a1a1c|dm|3
+카멜 브이넥 니트|#a67c52|dv|3
+#bottom
+@청바지
+블랙 청바지|#1a1a1c|csavm|4
+인디고 슬림 청바지|#2c3f63|cdm|4
+라이트 블루 워싱 청바지|#8fa9c6|cv|4
+미드 블루 스트레이트 청바지|#55749a|ca|4
+빈티지 워싱 청바지|#6d86a3|va|4
+와이드 인디고 청바지|#34486b|sc|4
+그레이 워싱 청바지|#7d8187|sv|4
+생지 레귤러 청바지|#202c47|amd|4
+@데님팬츠
+와이드 데님팬츠|#5e7ca0|sc|4
+카펜터 데님팬츠|#5a6f8f|av|4
+페인트 데님팬츠|#8aa0bb|sv|4
+블랙 와이드 데님팬츠|#19191b|s|4
+밝은 워싱 데님팬츠|#a6bad0|c|4
+더티 워싱 데님팬츠|#6a7686|va|4
+@슬랙스
+블랙 와이드 슬랙스|#17171a|dm|4
+차콜 슬림 슬랙스|#3b3c41|dm|4
+그레이 투턱 슬랙스|#8a8c90|dm|4
+네이비 슬랙스|#1f2a44|d|4
+베이지 와이드 슬랙스|#d4c7ad|mc|4
+브라운 울 슬랙스|#5e4636|dv|3
+화이트 린넨 슬랙스|#ebe6d8|mc|2
+@코튼팬츠
+베이지 치노 팬츠|#cdbd9c|cd|4
+카키 카고 팬츠|#6b6f4f|sa|4
+올리브 베이커 팬츠|#5f6445|av|4
+블랙 코튼 팬츠|#1d1d1f|mc|4
+아이보리 코튼 팬츠|#e4dcc8|mc|4
+브라운 코듀로이 팬츠|#6b4a38|va|3
+@트레이닝팬츠
+그레이 스웻 팬츠|#9b9ca0|cs|4
+블랙 조거 팬츠|#19191b|sc|4
+네이비 트랙 팬츠|#1f2b49|sc|4
+멜란지 와이드 스웻 팬츠|#b0b1b5|cm|4
+차콜 기모 트레이닝 팬츠|#43444a|cs|3
+화이트 사이드 라인 트랙 팬츠|#e9e9e6|sv|4
+브라운 워싱 스웻 팬츠|#7b6350|sv|4
+@나일론팬츠
+블랙 나일론 팬츠|#131315|s|4
+카키 나일론 카고 팬츠|#626849|sa|4
+그레이 나일론 팬츠|#858788|sc|4
+네이비 와이드 나일론 팬츠|#1d2845|sm|4
+베이지 나일론 팬츠|#cbbd9f|cm|4
+올리브 파라슈트 팬츠|#566040|sa|4
+블랙 테이퍼드 나일론 팬츠|#1a1a1c|sm|4
+브라운 나일론 와이드 팬츠|#6a5443|sv|4
+@반바지
+그레이 스웻 반바지|#a7a8ac|cs|2
+블랙 나일론 반바지|#151517|s|2
+데님 반바지|#6f8cb0|cv|2
+베이지 치노 반바지|#d0c2a2|cd|2
+네이비 하프 팬츠|#1f2b49|cd|2
+카키 카고 반바지|#6a6e50|sa|2
+화이트 린넨 반바지|#ece8dc|mc|2
+블랙 조거 반바지|#1b1b1d|sm|2
+#shoes
+@런닝화
+화이트 런닝화|#f1f1ee|cs|4
+그레이 런닝화|#8d8f94|cs|4
+블랙 런닝화|#1a1a1c|sm|4
+네이비 런닝화|#223357|cs|4
+@스니커즈
+갈색 나이키 슈즈|#6b4a33|cvas|4|Nike
+화이트 레더 스니커즈|#f4f4f2|cdm|4
+블랙 캔버스 스니커즈|#18181a|sca|4
+베이지 스웨이드 스니커즈|#c9b99a|mdv|1
+@부츠
+블랙 첼시 부츠|#151515|dmsv|3
+브라운 워커 부츠|#6b4630|av|3
+탄 레더 부츠|#9a6b42|av|3
+블랙 컴뱃 부츠|#19191a|s|3
+@샌들
+블랙 슬라이드 샌들|#19191b|sc|2
+베이지 스트랩 샌들|#cbb994|cm|2
+그레이 스포츠 샌들|#7f8185|cs|2
+브라운 레더 샌들|#6c4a34|dv|2
+@로퍼
+블랙 로퍼|#17171a|d|4
+브라운 로퍼|#5b3d2b|dv|4`;
+(()=>{let t,c;RAW.split('\n').forEach(l=>{l=l.trim();if(!l)return;if(l[0]=='#'){t=l.slice(1);return}if(l[0]=='@'){c=l.slice(1);return}const a=l.split('|');items.push(mk(a[0],c,t,a[1],a[2],a[3],a[4]))})})();
+const BASE=nid-1;
+/* ---------- icons ---------- */
+const P={s:'M32 12L44 17Q50 23 56 17L68 12L93 27L84 41L73 36V91H27V36L16 41L7 27Z',l:'M32 10L44 15Q50 21 56 15L68 10L97 58L86 64L73 40V92H27V40L14 64L3 58Z',b:'M30 8H70L77 94H54L50 38L46 94H23Z',w:'M27 8H73L82 94H55L50 42L45 94H18Z',h:'M30 10H70L77 58H54L50 34L46 58H23Z'};
+const SHP={스니커즈:['M6 54Q8 50 20 48L30 52Q38 60 50 58L62 54Q92 54 95 70V76H6Z','M5 76H96V85H5Z','M34 54L40 50M40 58L46 53M46 60L52 55','#ececE8'],런닝화:['M5 52Q8 46 22 46L32 52Q40 58 52 56L64 50Q94 52 96 70V76H5Z','M4 76H97V86H4Z','M16 68Q50 74 84 60M36 53L42 49M43 57L49 52','#ececE8'],부츠:['M30 10H58V50L84 58Q96 62 96 74V80H28Z','M26 80H97V89H26Z','M30 24H58M30 36H58','#2b2b2b'],샌들:['M6 74H94V82H6Z','','','#2b2b2b'],로퍼:['M6 62Q14 50 40 52L74 60Q96 64 95 76H6Z','M5 76H96V83H5Z','M40 52L50 63M62 58L66 66','#2b2b2b']};
+const G='<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient></defs>';
+function ico(i){const f=i.color,c=i.cat,k=hsl(f)[1]<.35?'rgba(255,255,255,.34)':'rgba(0,0,0,.34)',sk='stroke="rgba(0,0,0,.3)" stroke-width="1.2" stroke-linejoin="round"';
+ const L=x=>`<path d="${x}" stroke="${k}" fill="none" stroke-width="1.5" stroke-linecap="round"/>`;let p,d='',vb='0 0 100 100',extra='';
+ if(i.type=='shoes'){const S=SHP[c]||SHP.스니커즈;vb='0 18 100 80';p=S[0];
+  if(c=='샌들')d=`<path d="M24 74Q38 46 52 74M52 74Q66 46 80 74" stroke="${f}" fill="none" stroke-width="7" stroke-linecap="round"/><path d="M24 74Q38 46 52 74M52 74Q66 46 80 74" stroke="url(#g)" fill="none" stroke-width="7" stroke-linecap="round"/>`;
+  else d=`<path d="${p}" fill="url(#g)"/>`+(S[1]?`<path d="${S[1]}" fill="${S[3]}" ${sk}/>`:'')+L(S[2]);
+  return `<svg viewBox="${vb}">${G}<path d="${p}" fill="${f}" ${sk}/>${d}</svg>`}
+ if(i.type=='top'){p=c=='반팔티'?P.s:P.l;
+  const rb=Array.from({length:10},(_,x)=>`M${31+x*4.4} 83V91`).join('');
+  d=c=='반팔티'?L('M43 16Q50 27 57 16M16 41L27 36M84 41L73 36'):c=='롱슬리브'?L('M43 16Q50 27 57 16M9 52L20 58M91 52L80 58'):c=='맨투맨'?L('M42 15Q50 28 58 15M27 84H73M9 52L20 58M91 52L80 58'):c=='후드티'?L('M36 15Q50 -4 64 15Q50 32 36 15ZM46 30V48M54 30V48M34 66H66L62 80H38Z'):c=='아우터'?L('M50 24V92M40 12L50 26L60 12M31 68H43M57 68H69M27 84H73'):c=='셔츠'?L('M41 12L50 26L59 12M50 26V92M56 46H67V56H56Z')+[36,48,60,72].map(y=>`<circle cx="50" cy="${y}" r="1.3" fill="${k}"/>`).join(''):L('M42 15Q50 25 58 15'+rb+'M9 52L20 58M91 52L80 58');}
+ else{p=c=='반바지'?P.h:(['트레이닝팬츠','나일론팬츠','데님팬츠'].includes(c)||/와이드/.test(i.name))?P.w:P.b;
+  d=c=='청바지'||c=='데님팬츠'?L('M30 14H70M50 14V38M32 16Q38 32 45 30M68 16Q62 32 55 30'):c=='슬랙스'||c=='코튼팬츠'?L('M30 14H70M40 20L37 92M60 20L63 92')+`<circle cx="50" cy="11" r="1.5" fill="${k}"/>`:c=='트레이닝팬츠'?L('M28 14H72M46 14V26M54 14V26M30 10L21 92M70 10L79 92'):c=='나일론팬츠'?L('M28 14H72M30 42H41V54H30ZM59 42H70V54H59ZM46 14V26M54 14V26'):L('M30 16H70M50 16V32');}
+ return `<svg viewBox="${vb}">${G}<path d="${p}" fill="${f}" ${sk}/><path d="${p}" fill="url(#g)"/>${d}</svg>`}
+/* ---------- users / posts ---------- */
+const NAMES=['준서','도아','서준','정민','도환','준상','동찬','정우','지호','동근','주환','형준','율빈','영학','현재','주은','소현','소연','건우','온유','예찬','주승','보성','민찬'];
+let sd=7;const rnd=()=>(sd=(sd*1103515245+12345)&0x7fffffff)/0x7fffffff;
+const U=NAMES.map((n,k)=>{const sty=[STY[k%6],STY[(k+2)%6]];const pk=ty=>{const a=items.filter(i=>i.type==ty&&(i.st.includes(sty[0])||i.st.includes(sty[1])));return a[Math.floor(rnd()*a.length)]};
+ return{n,b:sty.join(' / '),its:[...new Set([pk('top'),pk('top'),pk('bottom'),pk('bottom'),pk('shoes')])].filter(Boolean)}});
+const F=n=>items.find(i=>i.name==n);
+const PO={0:['봄 출근 룩. 셔츠와 슬랙스로 정리했습니다.',['화이트 옥스포드 셔츠','블랙 와이드 슬랙스','블랙 로퍼'],['댄디','출근']],1:['주말 빈티지 조합. 카키 아우터에 워싱 데님.',['카키 M65 필드 자켓','빈티지 워싱 청바지','브라운 워커 부츠'],['빈티지','아메카지']],2:['비 오는 날 나일론팬츠 스타일링.',['블랙 오버핏 후드티','블랙 나일론 팬츠','블랙 컴뱃 부츠'],['스트릿']]};
+let like={},cmts={};
+const posts=U.map((u,k)=>{let t,its,tags;const id='p'+(k+1);
+ if(PO[k]){[t,its,tags]=PO[k];its=its.map(F);u.b=tags.filter(x=>STY.includes(x)).join(' / ');u.its=[...new Set([...its,...u.its])]}
+ else{its=['top','bottom','shoes'].map(ty=>u.its.find(i=>i.type==ty)).filter(Boolean);tags=u.b.split(' / ');t=tags[0]+' 무드의 데일리 코디입니다.'}
+ like[id]=[24,41,17][k]||8+(k*13)%47;cmts[id]=[];return{id,k,t,its,tags}});
+cmts.p1=[['도아','슬랙스 핏이 정말 깔끔해요.']];
+/* ---------- state ---------- */
+let logs=[],pref={st:{},it:{}},wx={t:14,rain:false},sel={st:'미니멀',tpo:null},listings=[],follow={},save={},pub=false,edits={},cf={t:'all',c:''},rk=0,cur='home',_img=null;
+try{const j=JSON.parse(localStorage.getItem(K)||'{}');if(j.logs)logs=j.logs;if(j.pref)pref=j.pref;if(j.wx)wx=j.wx;if(j.sel)sel=j.sel;if(j.listings)listings=j.listings;if(j.follow)follow=j.follow;Object.assign(like,j.like||{});Object.assign(save,j.save||{});Object.assign(cmts,j.cmts||{});pub=!!j.pub;(j.added||[]).forEach(a=>items.push(a));nid=Math.max(nid,...items.map(i=>i.id+1));edits=j.edits||{};items.forEach(i=>edits[i.id]&&Object.assign(i,edits[i.id]))}catch(e){}
+function persist(){try{localStorage.setItem(K,JSON.stringify({logs,pref,wx,sel,listings,follow,like,save,cmts,pub,edits,added:items.filter(i=>i.id>BASE)}))}catch(e){}}
+/* ---------- recommendation ---------- */
+const TPO=['출근','데이트','친구 모임','운동'];
+const TPOC={'출근':['슬랙스','코튼팬츠','셔츠','로퍼','니트','스니커즈','아우터'],'데이트':['슬랙스','코튼팬츠','셔츠','니트','로퍼','청바지','아우터'],'친구 모임':['청바지','데님팬츠','후드티','맨투맨','스니커즈','반팔티'],'운동':['트레이닝팬츠','나일론팬츠','반바지','런닝화','반팔티','후드티']};
+const TPOX={'출근':['트레이닝팬츠','반바지','샌들','후드티'],'데이트':['트레이닝팬츠','샌들','런닝화'],'친구 모임':[],'운동':['슬랙스','로퍼','셔츠','부츠','샌들','아우터']};
+const TG=t=>t<=5?4:t<=12?3:t<=19?2:1,tw_=(w,g)=>-Math.abs(w-g)*2.5;
+function sc(i){let s=i.st.includes(sel.st)?3:-1.5;const T=wx.t,c=i.cat,n=i.name;
+ if(sel.tpo){if(TPOC[sel.tpo].includes(c))s+=1.5;if(TPOX[sel.tpo].includes(c))s-=3}
+ s+=(pref.it[i.id]||0)*.4;
+ if(T>=24&&i.type=='top'&&i.sn!=2)s-=2.5;
+ if(T>=26&&c=='반바지')s+=2.5;if(T<=14&&c=='반바지')s-=5;
+ if(T>=24&&c=='샌들')s+=2;if(T<=12&&c=='샌들')s-=5;if(T>=24&&c=='부츠')s-=3;
+ if(T>=26&&i.sn==3)s-=3;if(T<=8&&i.sn==2)s-=3;
+ if(wx.rain){if(c=='샌들')s-=4;if(c=='로퍼')s-=1.5;if(/스웨이드/.test(n))s-=2;if(c=='부츠'||c=='나일론팬츠'||/코치|패딩|트렌치/.test(n))s+=1;if(i.type=='bottom'&&hsl(i.color)[1]>.75)s-=1}
+ return s}
+function recommend(){const A=t=>items.filter(i=>i.type==t),tops=A('top'),bots=A('bottom'),shs=A('shoes');if(!tops.length||!bots.length)return null;
+ const B=tops.filter(i=>['반팔티','롱슬리브','셔츠'].includes(i.cat)),L=tops.filter(i=>['아우터','니트','후드티','맨투맨'].includes(i.cat)),tg=TG(wx.t),co=[];
+ tops.forEach(t=>co.push({tp:[t],s:sc(t)+tw_(t.w,tg)}));
+ L.forEach(l=>B.forEach(b=>{if(l.color!=b.color)co.push({tp:[l,b],s:sc(l)+sc(b)*.5+tw_(l.w+b.w,tg)})}));
+ const cd=[];co.forEach(c=>bots.forEach(b=>{const[s1,l1]=hsl(c.tp[0].color),[s2,l2]=hsl(b.color);let h=0;if(Math.abs(l1-l2)>.3)h+=.8;if(s1>.35&&s2>.35)h-=1.5;if(c.tp[0].color==b.color)h-=2;cd.push({tp:c.tp,b,s:c.s+sc(b)+h})}));
+ cd.sort((x,y)=>y.s-x.s);const seen=new Set(),top=[];for(const c of cd){const key=c.tp.map(i=>i.id).join();if(!seen.has(key)){seen.add(key);top.push(c)}if(top.length>=8)break}
+ const r=top[rk%top.length],sb=shs.map(s=>({s,v:sc(s)+(hsl(s.color)[1]>.35&&hsl(r.b.color)[1]>.35?-1:0)})).sort((x,y)=>y.v-x.v);
+ return{tp:r.tp,b:r.b,s:sb.length?sb[rk%Math.min(3,sb.length)].s:null}}
+function why(r){const a=[`서울 ${wx.t}도에는 ${r.tp.map(i=>i.name).join(' + ')}${r.tp.length>1?' 레이어드':''} 조합이 적합합니다.`];
+ if(wx.rain)a.push('비 예보를 반영해 활동성과 방수에 유리한 아이템을 우선했습니다.');
+ a.push(`${sel.st} 스타일 태그와 일치하는 아이템을 우선 반영했습니다.`);
+ if(sel.tpo)a.push(`${sel.tpo} 일정에 어울리는 카테고리에 가중치를 두었습니다.`);
+ if(Object.keys(pref.it).length)a.push('기록하신 코디에서 학습한 취향을 반영했습니다.');return a.join(' ')}
+/* ---------- helpers ---------- */
+const tw=t=>{const r=document.createElement('div');r.className='tg';r.textContent=t;document.body.appendChild(r);setTimeout(()=>r.remove(),1800)};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function modal(h){const o=document.createElement('div');o.className='ov';o.innerHTML='<div class="md">'+h+'</div>';o.onclick=e=>{if(e.target==o)o.remove()};document.body.appendChild(o);return o}
+function notif(){modal('<h3>알림</h3><p class="sub">도아님이 회원님의 옷장에 코디를 제안했습니다.</p><p class="sub">준서님이 회원님을 팔로우하기 시작했습니다.</p><p class="sub">서준님이 블랙 청바지에 교환을 요청했습니다.</p>')}
+const card=i=>`<div class="card"><div class="ph">${i.img?`<img src="${i.img}" alt="">`:ico(i)}</div><div class="cb"><div class="n">${esc(i.name)}</div><div class="s">${i.cat} / ${i.fit} / ${i.season}</div></div></div>`;
+const trio=a=>`<div class="pair">${a.map(i=>`<div class="ph">${i.img?`<img src="${i.img}" alt="">`:ico(i)}</div>`).join('')}</div>`;
+const byId=id=>items.find(x=>x.id==id);
+/* ---------- views ---------- */
+const V={
+home(){const r=recommend(),pp=[...posts].sort((a,b)=>like[b.id]-like[a.id]).slice(0,3);return `<div class="hero"><div><p class="sub" style="letter-spacing:.2em;font-size:11px">TODAY / SEOUL ${wx.t}&deg;</p><h1>오늘의 <b>코디</b>,<br>FITMATE와 함께합니다.</h1><p class="sub">촬영한 옷을 옷장에 저장하고, 날씨와 취향에 맞는 상의와 하의, 신발을 매일 추천받으세요.</p><div class="row" style="margin-top:24px"><button class="btn p" onclick="go('ai')">AI 코디 추천</button><button class="btn" onclick="go('add')">옷 추가</button></div></div>${r?trio([...r.tp,r.b,r.s].filter(Boolean)):''}</div>
+ <h2>인기 코디<small onclick="go('popular')" style="cursor:pointer">전체 보기</small></h2><div class="grid l">${pp.map(post).join('')}</div>
+ <h2>추천 사용자<small onclick="go('users')" style="cursor:pointer">전체 보기</small></h2><div class="grid">${[3,4,5,6,7,8].map(ucard).join('')}</div>`},
+popular(){return `<h1>인기 <b>코디</b></h1><div class="grid l" style="margin-top:28px">${[...posts].sort((a,b)=>like[b.id]-like[a.id]).map(post).join('')}</div>`},
+users(){return `<h1>추천 <b>사용자</b></h1><div class="grid" style="margin-top:28px">${U.map((u,k)=>ucard(k)).join('')}</div>`},
+closet(){const cn=t=>items.filter(i=>i.type==t).length,list=items.filter(i=>(cf.t=='all'||i.type==cf.t)&&(!cf.c||i.cat==cf.c)),cats=cf.t=='all'?[]:CATS[cf.t];
+ return `<div class="row" style="justify-content:space-between"><h1>내 <b>옷장</b></h1><button class="btn p" onclick="go('add')">옷 추가</button></div>
+ <div class="stat"><div><b>${items.length}</b>전체</div><div><b>${cn('top')}</b>상의</div><div><b>${cn('bottom')}</b>하의</div><div><b>${cn('shoes')}</b>신발</div></div>
+ <div class="chips" style="margin-top:24px">${[['all','전체'],['top','상의'],['bottom','하의'],['shoes','신발']].map(([t,n])=>`<button class="chip ${cf.t==t?'on':''}" onclick="cf.t='${t}';cf.c='';go('closet')">${n}</button>`).join('')}</div>
+ ${cats.length?`<div class="chips" style="margin-top:10px">${cats.map(c=>`<button class="chip ${cf.c==c?'on':''}" onclick="cf.c=cf.c=='${c}'?'':'${c}';go('closet')">${c} ${items.filter(i=>i.cat==c).length}</button>`).join('')}</div>`:''}
+ <div class="grid" style="margin-top:24px">${list.map(i=>`<div>${card(i)}<div class="row" style="padding:6px 6px 0;gap:14px"><button class="lk" onclick="edit(${i.id})">정보 수정</button><button class="lk" onclick="sell(${i.id})">판매 등록</button></div></div>`).join('')}</div>
+ ${listings.length?`<h2>내 판매 / 교환 등록</h2><div class="chips">${listings.map(l=>`<span class="chip on">${esc(l.name)} / ${l.price?Number(l.price).toLocaleString()+'원':'교환'}</span>`).join('')}</div>`:''}`},
+add(){return `<h1>옷 <b>추가</b></h1><p class="sub">사진을 촬영하거나 업로드하면 옷장에 저장됩니다.</p><div class="split" style="margin-top:28px"><div><div class="card"><div class="ph" id="pv" style="aspect-ratio:3/4"><span class="sub">사진 미리보기</span></div></div><label>사진 촬영 또는 업로드</label><input type="file" accept="image/*" capture="environment" id="f" onchange="pvw(this)"></div>
+ <div><label>이름</label><input id="nm" placeholder="예: 네이비 니트"><div class="two"><div><label>종류</label><select id="ct">${Object.entries(CATS).map(([t,a])=>a.map(c=>`<option value="${t}|${c}">${TN[t]} / ${c}</option>`).join('')).join('')}</select></div><div><label>대표 색상</label><input type="color" id="cl" value="#2b3a55" style="padding:3px;height:42px"></div></div>
+ <div class="two"><div><label>핏</label><select id="ft"><option>레귤러</option><option>오버핏</option><option>슬림</option></select></div><div><label>계절</label><select id="sn"><option value="1">봄/가을</option><option value="2">여름</option><option value="3">겨울</option><option value="4">사계절</option></select></div></div>
+ <div class="two"><div><label>브랜드</label><input id="br"></div><div><label>구매 날짜</label><input type="date" id="dt"></div></div>
+ <label>어울리는 스타일</label><div class="chips" id="sts">${STY.map(s=>`<button class="chip" onclick="this.classList.toggle('on')">${s}</button>`).join('')}</div>
+ <div style="margin-top:26px"><button class="btn p" onclick="saveItem()">옷장에 저장</button></div></div></div>`},
+outfit(){const o=t=>items.filter(i=>i.type==t).map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join('');
+ return `<h1>오늘의 <b>코디</b></h1><p class="sub">입은 옷을 기록하면 AI가 취향을 학습해 다음 추천에 반영합니다.</p>
+ <div class="split" style="margin-top:28px"><div><label>상의</label><select id="o1">${o('top')}</select><label>겉옷 / 레이어 (선택)</label><select id="o2"><option value="">없음</option>${o('top')}</select><label>하의</label><select id="o3">${o('bottom')}</select><label>신발</label><select id="o4">${o('shoes')}</select>
+ <label>스타일</label><div class="chips" id="ps">${STY.map(s=>`<button class="chip" onclick="document.querySelectorAll('#ps .chip').forEach(x=>x.classList.remove('on'));this.classList.add('on')">${s}</button>`).join('')}</div>
+ <div style="margin-top:22px"><button class="btn p" onclick="logOutfit()">코디 기록</button></div></div>
+ <div><label style="margin-top:0">학습된 취향</label>${Object.keys(pref.st).length?`<div class="chips">${Object.entries(pref.st).map(([k,v])=>`<span class="chip on">${k} ${v}회</span>`).join('')}</div>`:'<p class="sub">아직 기록이 없습니다.</p>'}
+ <label style="margin-top:24px">기록</label>${logs.length?logs.map(l=>`<div style="margin-bottom:14px">${trio(l.ids.map(byId).filter(Boolean))}<p class="sub">${l.d} / ${l.s||'스타일 미선택'}</p></div>`).join(''):'<p class="sub">기록된 코디가 없습니다.</p>'}</div></div>`},
+ai(){const r=recommend();return `<h1>AI <b>코디 추천</b></h1><p class="sub">스타일을 선택하면 날씨와 TPO를 반영해 옷장에서 조합합니다.</p>
+ <h2>날씨 / 서울</h2><div class="wx"><div class="t">${wx.t}&deg;</div><div><div style="font-weight:600">${wx.rain?'비':'맑음'}</div><div class="sub" style="margin:0">시뮬레이션 값입니다.</div></div>
+ <div style="flex:1;min-width:180px"><label style="margin-top:0">기온 ${wx.t}도</label><input type="range" min="-5" max="35" value="${wx.t}" style="padding:0" oninput="wx.t=+this.value;this.previousElementSibling.textContent='기온 '+wx.t+'도'" onchange="rk=0;go('ai')"></div>
+ <button class="chip ${wx.rain?'on':''}" onclick="wx.rain=!wx.rain;rk=0;go('ai')">비 예보</button></div>
+ <h2>스타일</h2><div class="chips">${STY.map(s=>`<button class="chip ${sel.st==s?'on':''}" onclick="sel.st='${s}';rk=0;go('ai')">${s}</button>`).join('')}</div>
+ <h2>TPO</h2><div class="chips"><button class="chip ${!sel.tpo?'on':''}" onclick="sel.tpo=null;rk=0;go('ai')">해당사항 없음</button><button class="chip ${sel.tpo?'on':''}" onclick="tpoPick()">${sel.tpo?'TPO / '+sel.tpo:'TPO 기능 추가'}</button></div>
+ <h2>추천 결과</h2>${r?`<div class="out">${[...r.tp,r.b,r.s].filter(Boolean).map(card).join('')}</div><p class="why">${why(r)}</p><div class="row" style="margin-top:22px"><button class="btn p" onclick="wear()">이 코디로 기록</button><button class="btn" onclick="rk++;go('ai')">다시 추천</button></div>`:'<p class="sub">상의와 하의를 먼저 옷장에 추가해 주세요.</p>'}`},
+feed(){return `<h1>코디 <b>피드</b></h1><div class="grid l" style="margin-top:28px">${posts.map(post).join('')}</div>`},
+wardrobes(){return `<h1>공개 <b>옷장</b></h1><p class="sub">다른 사용자의 옷장에서 어울리는 조합을 제안하거나 교환을 요청할 수 있습니다.</p><div class="grid" style="margin-top:28px">${U.map((u,k)=>ucard(k)).join('')}</div>`},
+following(){const f=posts.filter(p=>follow[p.k]);return `<h1><b>팔로잉</b></h1>${f.length?`<div class="grid l" style="margin-top:28px">${f.map(post).join('')}</div>`:'<p class="sub" style="margin-top:14px">팔로우한 사용자가 없습니다. 추천 사용자에서 팔로우해 보세요.</p>'}`},
+profile(){return `<div class="u"><div class="av" style="width:64px;height:64px;font-size:22px">현</div><div><h1 style="font-size:24px">이<b>현우</b></h1><p class="sub" style="margin:0">옷 ${items.length}개 / 기록 ${logs.length}회</p></div></div>
+ <h2>옷장 공개</h2><div class="chips"><button class="chip ${pub?'on':''}" onclick="pub=!pub;go('profile')">${pub?'공개 중':'비공개'}</button></div><p class="sub" style="margin-top:12px">공개하면 다른 사용자가 내 옷장을 보고 조합을 제안할 수 있습니다.</p>`}};
+function post(p){const u=U[p.k],id=p.id;return `<div class="card"><div class="u" style="padding:14px 16px"><div class="av">${u.n[0]}</div><div style="flex:1"><div style="font-weight:600">${u.n}</div><div style="color:var(--tx2);font-size:12px">${u.b}</div></div><button class="chip ${follow[p.k]?'on':''}" onclick="fl(${p.k})">${follow[p.k]?'팔로잉':'팔로우'}</button></div>
+ <div class="pair" style="border-radius:0;padding:6px 16px">${p.its.map(i=>`<div class="ph">${ico(i)}</div>`).join('')}</div>
+ <div class="cb"><p>${p.t}</p><p class="sub" style="font-size:12px;margin-top:4px">${p.its.map(i=>i.name).join(' / ')}</p><div style="margin-top:8px">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+ <div class="row" style="gap:18px;margin-top:10px"><button class="lk ${like[id+'m']?'on':''}" onclick="lk('${id}')">좋아요 ${like[id]}</button><button class="lk ${save[id]?'on':''}" onclick="sv('${id}')">${save[id]?'저장됨':'저장'}</button><button class="lk" onclick="tw('링크를 복사했습니다')">공유</button></div>
+ <div class="cm">${cmts[id].map(c=>`<p><b>${esc(c[0])}</b>${esc(c[1])}</p>`).join('')}<div class="cmi"><input id="c_${id}" placeholder="댓글 작성" onkeydown="if(event.key=='Enter')cm('${id}')"><button class="btn" onclick="cm('${id}')">등록</button></div></div></div></div>`}
+function ucard(k){const u=U[k];return `<div class="card"><div class="u" style="padding:16px"><div class="av">${u.n[0]}</div><div style="flex:1"><div style="font-weight:600">${u.n}</div><div style="color:var(--tx2);font-size:12px">${u.b} / 옷 ${u.its.length}개</div></div><button class="chip ${follow[k]?'on':''}" onclick="fl(${k})">${follow[k]?'팔로잉':'팔로우'}</button></div>
+ <div class="pair" style="border-radius:0">${u.its.slice(0,3).map(i=>`<div class="ph">${ico(i)}</div>`).join('')}</div><div class="cb"><button class="btn" onclick="open_(${k})">옷장 보기</button></div></div>`}
+function open_(k){const u=U[k],tp=u.its.filter(i=>i.type=='top'),bt=u.its.filter(i=>i.type=='bottom');
+ modal(`<h3>${u.n}님의 옷장</h3><p class="sub" style="margin:0 0 14px">${u.b}</p><div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">${u.its.map((i,x)=>`<div class="card"><div class="ph">${ico(i)}</div><div class="cb" style="padding:10px 12px"><div class="n" style="font-size:13px">${i.name}</div><div class="row" style="gap:10px"><button class="lk" onclick="trade()">교환 요청</button><button class="lk" onclick="tw('구매 요청을 보냈습니다')">${(15000+x*8000).toLocaleString()}원</button></div></div></div>`).join('')}</div>
+ <label>조합 제안</label><div class="two"><select>${tp.map(i=>`<option>${i.name}</option>`).join('')}</select><select>${bt.map(i=>`<option>${i.name}</option>`).join('')}</select></div>
+ <div style="margin-top:14px"><button class="btn p" onclick="tw('조합을 제안했습니다');this.closest('.ov').remove()">제안 보내기</button></div>`)}
+function trade(){modal(`<h3>교환 요청</h3><p class="sub">교환에 제안할 내 옷을 선택하세요.</p><select style="margin-top:12px">${items.map(i=>`<option>${esc(i.name)}</option>`).join('')}</select><div style="margin-top:16px"><button class="btn p" onclick="tw('교환 요청을 보냈습니다');this.closest('.ov').remove()">요청 보내기</button></div>`)}
+function sell(id){const i=byId(id);modal(`<h3>${esc(i.name)}</h3><p class="sub">희망 가격을 입력하면 판매 목록에 등록됩니다. 비워 두면 교환으로 등록됩니다.</p><label>희망 가격(원)</label><input type="number" id="pr" placeholder="예: 25000"><div style="margin-top:18px"><button class="btn p" onclick="listings.push({name:'${esc(i.name)}',price:$('#pr').value});this.closest('.ov').remove();go('closet')">등록</button></div>`)}
+function edit(id){const i=byId(id);modal(`<h3>정보 수정</h3><label>이름</label><input id="en" value="${esc(i.name)}"><div class="two"><div><label>핏</label><select id="ef">${['레귤러','오버핏','슬림'].map(f=>`<option ${f==i.fit?'selected':''}>${f}</option>`).join('')}</select></div><div><label>브랜드</label><input id="eb" value="${esc(i.brand)}"></div></div><div style="margin-top:18px"><button class="btn p" onclick="const t=byId(${id});t.name=$('#en').value||t.name;t.fit=$('#ef').value;t.brand=$('#eb').value;edits[${id}]={name:t.name,fit:t.fit,brand:t.brand};this.closest('.ov').remove();go('closet')">저장</button></div>`)}
+function tpoPick(){modal(`<h3>TPO 선택</h3><div class="chips" style="margin-top:14px">${TPO.map(t=>`<button class="chip" onclick="sel.tpo='${t}';rk=0;this.closest('.ov').remove();go('ai')">${t}</button>`).join('')}</div>`)}
+function fl(k){follow[k]=!follow[k];go(cur)}
+function lk(id){like[id+'m']=!like[id+'m'];like[id]+=like[id+'m']?1:-1;go(cur)}
+function sv(id){save[id]=!save[id];tw(save[id]?'저장했습니다':'저장을 취소했습니다');go(cur)}
+function cm(id){const v=$('#c_'+id).value.trim();if(!v)return;cmts[id].push(['이현우',v]);go(cur)}
+function pvw(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{_img=r.result;$('#pv').innerHTML=`<img src="${r.result}" alt="">`};r.readAsDataURL(f)}
+function saveItem(){const[t,c]=$('#ct').value.split('|'),st=[...document.querySelectorAll('#sts .on')].map(x=>x.textContent),n=$('#nm').value||'새 옷';
+ const it=mk(n,c,t,$('#cl').value,'',$('#sn').value,$('#br').value);it.fit=$('#ft').value;it.date=$('#dt').value;it.st=st.length?st:['캐쥬얼'];if(_img)it.img=_img;_img=null;items.push(it);tw('옷장에 저장했습니다');cf={t:'all',c:''};go('closet')}
+function logOutfit(){const ids=['o1','o2','o3','o4'].map(x=>$('#'+x).value).filter(Boolean).map(Number),s=($('#ps .on')||{}).textContent;ids.forEach(i=>pref.it[i]=(pref.it[i]||0)+1);if(s)pref.st[s]=(pref.st[s]||0)+1;
+ logs.unshift({ids,s,d:new Date().toLocaleDateString('ko-KR')});tw('코디를 기록했습니다');go('outfit')}
+function wear(){const r=recommend(),a=[...r.tp,r.b,r.s].filter(Boolean);a.forEach(i=>pref.it[i.id]=(pref.it[i.id]||0)+1);pref.st[sel.st]=(pref.st[sel.st]||0)+1;logs.unshift({ids:a.map(i=>i.id),s:sel.st,d:new Date().toLocaleDateString('ko-KR')});persist();tw('오늘의 코디로 기록했습니다')}
+function go(p){const same=p==cur;cur=p;$('#v').innerHTML=V[p]();if(!same)scrollTo(0,0);persist()}
+go('home');
+</script></body></html>
